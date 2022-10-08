@@ -1,49 +1,31 @@
 import React, { useState, useEffect } from 'react';
 
-import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Button, FlatList } from 'react-native';
+import { ImageBackground, Image, SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Button, FlatList, Alert, TextInput, ScrollView } from 'react-native';
 
 const Separator = () => (
   <View style={styles.separator} />
 );
 
-const DATA = [
-  {
-    id: '000',
-    time: 'Time1',
-  },
-  {
-    id: '00',
-    time: 'Time2',
-  },
-  {
-    id: '0',
-    time: 'Time3',
-  },
-  
-];
 
 
-const Item = ({ id, time }) => (
-  <View style={styles.item}>
-    <Text style={styles.time}>{id}{time}</Text>
-  </View>
-);
 
 const App = () => {
-  let data = [];
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
-  const [takeTime, setTakeTime] = useState(data);
+  const [takeTime, setTakeTime] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
 
-  const renderItem = ({ item }) => (
-    <Item id = {item.id} 
-          time = {item.time} />
-  );
 
-  
+
+
+
+
+
+
+
   const flyingFinish = () => {
-    setTakeTime((data) => [...data, currentTime])
+    setTakeTime((takeTime) => [...takeTime, currentTime])
   };
 
 
@@ -55,28 +37,19 @@ const App = () => {
     let date = new Date().getDate();
     let month = new Date().getMonth() + 1;
     let year = new Date().getFullYear();
-    let h = new Date().getHours() + 3;
+    let h = new Date().getHours();
     let m = new Date().getMinutes();
     let s = new Date().getSeconds();
     let ms = new Date().getMilliseconds();
 
     date = checkTime(date);
     month = checkTime(month);
-    h = checkHour(h);
+    h = checkTime(h);
     m = checkTime(m);
     s = checkTime(s);
     ms = checkMs(ms);
 
-    function checkHour(a) {
-      if      (a === 24) { a = 0 }
-      else if (a === 25) { a = 1 }
-      else if (a === 26) { a = 2 }
-      else if (a === 27) { a = 3 }
 
-      if (a < 10) { a = "0" + a }
-
-      return a;
-    }
 
     function checkTime(i) {
       if (i < 10) { i = "0" + i }
@@ -99,70 +72,85 @@ const App = () => {
   });
 
 
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
+      <ImageBackground opacity={0.5} source={require('./assets/finish_flag.png')} resizeMode='contain' style={[styles.image,]}>
+
+
+
         <View style={styles.container}>
-          <Text style={styles.textStyle}>
-            Tarih ve Saat
-          </Text>
-          <Text style={styles.textStyle}>
-            {currentDate}
-          </Text>
-          <Text style={styles.textStyle}>
-            {currentTime}
-          </Text>
 
-          <Button
-        title="Flying Finish"
-        color="#f194ff"
-        onPress={() => {
-          Alert.alert('Button with adjusted color pressed')
-          {flyingFinish}
-        }}
-      />
-      <Separator />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={flyingFinish}
-            
-          >
-            <Text>Flying Finish</Text>
-          </TouchableOpacity>
 
-          <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+          <View style={{ flex: 1 }}>
+            <View style={{ justifyContent: 'space-around', backgroundColor: '#bbbbbb99', flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={require('./assets/finish_flag.png')} style={{ height: 20, width: 20 }} />
 
+              <Text style={styles.textStyle}>
+                Flying Finish
+              </Text>
+              <Image source={require('./assets/chronometer.png')} style={{ height: 20, width: 20 }} />
+            </View>
+            <Separator />
             <View>
-              <Text>
-              {takeTime}
-
+              <Text style={[styles.textStyle, { backgroundColor: '#bbbbbb99' }]}>
+                {currentDate}
               </Text>
 
             </View>
 
-        </View>
+            <Separator />
 
-        <Text
-          style={{
-            fontSize: 18,
-            textAlign: 'center',
-            color: 'grey'
-          }}>
-          TOSFED Krono
-        </Text>
-        <Text
-          style={{
-            fontSize: 16,
-            textAlign: 'center',
-            color: 'grey'
-          }}>
-          By Emrah Aksoy
-        </Text>
-      </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={flyingFinish}
+            >
+
+              <Text style={styles.time}>{currentTime}</Text>
+            </TouchableOpacity>
+
+            <FlatList
+              data={takeTime}
+
+              renderItem={({ item }) => (
+                <View style={styles.item}>
+
+                  <TextInput
+                    keyboardType='decimal-pad'
+                    style={[styles.textStyle, { color: '#eeeeee' }]}
+                    placeholder="Kapı Numarası"
+                    placeholderTextColor={'white'}
+                  />
+
+                  <Text style={[styles.textStyle, { color: '#eeeeee' }]}>
+                    {item}
+                  </Text>
+                </View>
+              )
+              }
+            />
+          </View>
+
+          <Text
+            style={{
+              fontSize: 18,
+              textAlign: 'center',
+              color: '#aaaaaa',
+            }}>
+            TOSFED Krono
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              textAlign: 'center',
+              color: '#aaaaaa'
+            }}>
+            By Emrah Aksoy
+          </Text>
+
+        </View>
+      </ImageBackground>
+
     </SafeAreaView>
   );
 };
@@ -171,40 +159,64 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
     justifyContent: 'flex-start',
     padding: 10,
+
+
+
   },
   textStyle: {
     textAlign: 'center',
     fontSize: 18,
-    color: 'black',
+    color: '#000',
   },
   button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10
+    backgroundColor: '#bedebe99',
+    marginBottom: 2,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50
+
+
   },
   item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    flex: 1,
+    justifyContent: 'space-around',
+    backgroundColor: '#D2001A99',
+    padding: 2,
+    marginVertical: 2,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+
+
   },
   time: {
-    fontSize: 20,
-    justifyContent:'space-evenly',
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#000',
+
   },
   separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
+    marginVertical: 5,
+    borderBottomColor: '#000',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   fixToText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  image: {
+    flex: 1,
+    backgroundColor: '#eeeeee',
+    justifyContent: 'center',
 
+
+
+
+
+  }
 });
 
 export default App;
