@@ -137,7 +137,7 @@ const App = () => {
               textAlign: 'center',
               color: '#aaaaaa',
             }}>
-            TOSFED Krono
+            Race Krono
           </Text>
           <Text
             style={{

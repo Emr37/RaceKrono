@@ -1,4 +1,4 @@
-package com.tosfedkrono;
+package com.emrak.racekrono;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

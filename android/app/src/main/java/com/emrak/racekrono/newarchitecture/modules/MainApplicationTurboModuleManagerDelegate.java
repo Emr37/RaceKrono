@@ -1,4 +1,4 @@
-package com.tosfedkrono.newarchitecture.modules;
+package com.emrak.racekrono.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

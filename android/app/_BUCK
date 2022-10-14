@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.tosfedkrono",
+    package = "com.emrak.racekrono",
 )
 
 android_resource(
     name = "res",
-    package = "com.tosfedkrono",
+    package = "com.emrak.racekrono",
     res = "src/main/res",
 )
 

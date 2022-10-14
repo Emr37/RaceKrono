@@ -1,4 +1,4 @@
-package com.tosfedkrono.newarchitecture.components;
+package com.emrak.racekrono.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
